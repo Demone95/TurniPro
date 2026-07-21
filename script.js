@@ -101,7 +101,7 @@ function stats(){
 function saveAllow(){localStorage.setItem("allow",$("#allow").value);stats()}
 
 let y=$("#year"),ny=new Date().getFullYear();
-for(let i=ny-3;i<=ny+3;i++)y.innerHTML+=`<option ${i==ny?"selected":""}>${i}</option>`;
+for(let i=ny-2;i<=ny;i++)y.innerHTML+=`<option ${i==ny?"selected":""}>${i}</option>`;
 $("#allow").value=localStorage.getItem("allow")||0;
 
 if(cfg){$("#setup").classList.add("hide");render();initDatePicker()}
