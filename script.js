@@ -33,6 +33,7 @@ function saveCfg(t){
 function plan(d){
   if(cfg.t=="custom"){let n=Math.round((d-date(cfg.ref))/86400000),i=((n+cfg.pos)%cfg.seq.length+cfg.seq.length)%cfg.seq.length;return cfg.seq[i]}
   if(d.getDay()==0)return"R";
+  if(cfg.t=="321"&&d.getDay()==6)return"R";
   let c=cfg.t=="321"?[3,2,1]:[1,2],w=Math.round((monday(d)-monday(date(cfg.ref)))/604800000),i=c.indexOf(cfg.base);
   return c[((i+w)%c.length+c.length)%c.length];
 }
@@ -40,6 +41,7 @@ function plan(d){
 function render(){
   if(!cfg)return;
   $("#month").textContent=view.toLocaleDateString("it-IT",{month:"long",year:"numeric"});
+  $("#todayLabel").textContent=new Date().toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});
   let c=$("#cal");c.innerHTML="";
   let off=(view.getDay()+6)%7,n=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
   for(let i=0;i<off;i++)c.innerHTML+="<i class=blank></i>";
@@ -100,12 +102,12 @@ function stats(){
 function saveAllow(){localStorage.setItem("allow",$("#allow").value);stats()}
 
 let y=$("#year"),ny=new Date().getFullYear();
-for(let i=ny-2;i<=ny;i++)y.innerHTML+=`<option ${i==ny?"selected":""}>${i}</option>`;
+for(let i=ny-3;i<=ny+3;i++)y.innerHTML+=`<option ${i==ny?"selected":""}>${i}</option>`;
 $("#allow").value=localStorage.getItem("allow")||0;
 
 if(cfg){$("#setup").classList.add("hide");render();initDatePicker()}
 
-if("serviceWorker"in navigator)navigator.serviceWorker.register("/service-worker.js");
+if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js");
 document.addEventListener("gesturestart",e=>e.preventDefault());
 document.addEventListener("gesturechange",e=>e.preventDefault());
 document.addEventListener("dblclick",e=>e.preventDefault());
