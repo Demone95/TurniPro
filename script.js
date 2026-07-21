@@ -40,7 +40,6 @@ function plan(d){
 function render(){
   if(!cfg)return;
   $("#month").textContent=view.toLocaleDateString("it-IT",{month:"long",year:"numeric"});
-  $("#todayLabel").textContent=new Date().toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});
   let c=$("#cal");c.innerHTML="";
   let off=(view.getDay()+6)%7,n=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
   for(let i=0;i<off;i++)c.innerHTML+="<i class=blank></i>";
@@ -106,7 +105,7 @@ $("#allow").value=localStorage.getItem("allow")||0;
 
 if(cfg){$("#setup").classList.add("hide");render();initDatePicker()}
 
-if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js");
+if("serviceWorker"in navigator)navigator.serviceWorker.register("/service-worker.js");
 document.addEventListener("gesturestart",e=>e.preventDefault());
 document.addEventListener("gesturechange",e=>e.preventDefault());
 document.addEventListener("dblclick",e=>e.preventDefault());
