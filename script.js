@@ -41,7 +41,6 @@ function plan(d){
 function render(){
   if(!cfg)return;
   $("#month").textContent=view.toLocaleDateString("it-IT",{month:"long",year:"numeric"});
-  $("#todayLabel").textContent=new Date().toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});
   let c=$("#cal");c.innerHTML="";
   let off=(view.getDay()+6)%7,n=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
   for(let i=0;i<off;i++)c.innerHTML+="<i class=blank></i>";
@@ -95,7 +94,7 @@ document.addEventListener("click",e=>{let w=document.querySelector(".legend-wrap
 
 function stats(){
   let y=+$("#year").value||new Date().getFullYear(),c={ferie:0,malattia:0,permesso:0};
-  for(let [k,v]of Object.entries(ev))if(+k.slice(0,4)==y){if(v.startsWith("permesso"))c.permesso+=parseInt(v.replace("permesso-",""))||0;else c[v]++;}
+  for(let [k,v]of Object.entries(ev))if(+k.slice(0,4)==y){if(typeof v!=="string")continue;if(v.startsWith("permesso"))c.permesso+=parseInt(v.replace("permesso-",""))||0;else c[v]++;}
   $("#f").textContent=c.ferie;$("#m").textContent=c.malattia;$("#p").textContent=c.permesso;
   $("#remain").textContent="Ferie rimanenti: "+Math.max(0,(+$("#allow").value||0)-c.ferie);
 }
